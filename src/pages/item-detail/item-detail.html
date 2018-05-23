@@ -1,0 +1,51 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ item.description }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-card>
+    <div class="item-profile" text-center #profilePic [style.background-image]="'url(assets/img/speakers/bear.jpg)'">
+    </div>
+
+    <ion-card-content>
+      <h2>{{item.description}}</h2>
+      <p>Owner id: {{item.owner_id}}</p>
+      <p>{{item.threshold}}</p>
+      <button ion-button block (click)="content()">Donate</button>
+     <!-- <button ion-button block (click)="signup()">Singup</button>
+      <button ion-button block (click)="cards()">Cards</button>-->
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="timer">
+    <ion-card-header>
+      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">Quedan {{timer.displayTime.daysString}} días</button>
+      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">{{timer.displayTime.hoursString}}:{{timer.displayTime.minutesString}}:{{timer.displayTime.secondsString}}</button>
+      <button ion-button *ngIf="!timeInSeconds || timeInSeconds == 0" large block clear class="timer-button">Timer set up incorrectly</button>
+    </ion-card-header>
+    <ion-item *ngIf="timeInSeconds && timeInSeconds > 0">
+      <button ion-button clear class="large" color="danger" (click)="initTimer()" item-start *ngIf="!timer.runTimer && (timer.hasStarted || timer.hasFinished) || timer.hasFinished">
+        <ion-icon name="refresh"></ion-icon>
+        Restart
+      </button>
+      <button ion-button clear class="large" (click)="pauseTimer()" item-end *ngIf="timer.runTimer && timer.hasStarted && !timer.hasFinished">
+        <ion-icon name="pause"></ion-icon>
+        Pause
+      </button>
+      <button ion-button clear class="large" (click)="resumeTimer()" item-end *ngIf="!timer.runTimer && timer.hasStarted && !timer.hasFinished">
+        <ion-icon name="play"></ion-icon>
+        Resume
+      </button>
+      <button ion-button clear class="large" (click)="startTimer()" item-end *ngIf="!timer.hasStarted">
+        <ion-icon name="play"></ion-icon>
+        Start
+      </button>
+    </ion-item>
+  </ion-card>
+</ion-content>

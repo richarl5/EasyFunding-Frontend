@@ -15,8 +15,9 @@
 
     <ion-card-content>
       <h2>{{item.description}}</h2>
-      <p>Owner id: {{item.owner_id}}</p>
-      <p>{{item.threshold}}</p>
+      <p>Owner: {{item.owner_id.username}}</p>
+      <p>Contact: {{item.owner_id.email}}</p>
+      <p>{{item.threshold}} Eur</p>
       <button ion-button block (click)="content()">Donate</button>
      <!-- <button ion-button block (click)="signup()">Singup</button>
       <button ion-button block (click)="cards()">Cards</button>-->

@@ -15,7 +15,7 @@ export class Items {
     "about": "Burt is a Bear.",
   };
   query(params?: any) {
-    let token = 'JWT '+localStorage.getItem('token');
+    let token = 'JWT '+ localStorage.getItem('token');
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", token);
 

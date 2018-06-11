@@ -24,7 +24,8 @@ export class ItemCreatePage {
       description: [''],
       threshold: [''],
       robustness: [''],
-      expireDate: ['']
+      expireDate: [''],
+      owner_id: ['']
     });
 
     // Watch the form for changes, and
@@ -81,7 +82,10 @@ export class ItemCreatePage {
    */
   done() {
     if (!this.form.valid) { return; }
-    this.form.value.timeLeftInSeconds = this.form.value.timeLeftInSeconds*24*3600;
+    this.form.value.owner_id = localStorage.getItem('_id');
+    let dateNow = new Date();
+    this.form.value.expireDate = new Date(dateNow.getTime() + this.form.value.expireDate * 24 * 3600 * 1000);
+    this.form.value.robustness = parseInt(this.form.value.robustness);
     this.form.value.profilePic = 'assets/img/speakers/Donacion.png';
     this.viewCtrl.dismiss(this.form.value);
   }

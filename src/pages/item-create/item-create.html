@@ -40,13 +40,18 @@
         <ion-input type="text" placeholder="{{ 'ITEM_NAME_PLACEHOLDER' | translate }}" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" placeholder="{{ 'ITEM_ABOUT_PLACEHOLDER' | translate }}" formControlName="about"></ion-input>
+        <ion-input type="text" placeholder="{{ 'ITEM_ABOUT_PLACEHOLDER' | translate }}" formControlName="description"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" placeholder="Limite de dinero $" formControlName="limit"></ion-input>
+        <label>Limite de dinero $</label>
+        <ion-input type="text" value=0 formControlName="threshold"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" placeholder="Plazo en días" formControlName="timeLeftInSeconds"></ion-input>
+        <ion-input type="text" placeholder="Plazo en días" formControlName="expireDate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <label>Porcentage de claves necesarias</label>
+        <ion-input type="text" value=70 formControlName="robustness"></ion-input>
       </ion-item>
     </ion-list>
   </form>

@@ -37,7 +37,7 @@ export class ListMasterPage {
     addModal.onDidDismiss(item => {
       if (item) {
         console.log(item);
-        item.actual = 0;
+        //item.actual = 0;
         this.items.add(item);
       }
     });
@@ -55,8 +55,13 @@ export class ListMasterPage {
    * Navigate to the detail page for this item.
    */
   openItem(item: Item) {
-    this.navCtrl.push('ItemDetailPage', {
-      item: item
+    this.items.getOneContract(item._id).subscribe((res: any) => {
+      this.navCtrl.push('ItemDetailPage', {
+        item: res
+      });
+      console.log(res);
+    }, err => {
+      console.error('ERROR', err);
     });
   }
 }

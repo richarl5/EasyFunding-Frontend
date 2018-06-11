@@ -22,7 +22,7 @@ export class Items {
     let seq = this.api.get('contract/all', params, {headers:headers}).share();
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
-        console.log(res);
+      console.log(res);
     }, err => {
       console.error('ERROR', err);
     });
@@ -30,6 +30,33 @@ export class Items {
   }
 
   add(item: Item) {
+    let token = 'JWT '+ localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", token);
+
+    let seq = this.api.post('contract', item, {headers:headers}).share();
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      console.log(res);
+    }, err => {
+      console.error('ERROR', err);
+    });
+    return seq;
+  }
+
+  getOneContract(params?: any) {
+    let token = 'JWT '+ localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", token);
+
+    let seq = this.api.get('contract', {id: params}, {headers:headers}).share();
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      console.log(res);
+    }, err => {
+      console.error('ERROR', err);
+    });
+    return seq;
   }
 
   delete(item: Item) {

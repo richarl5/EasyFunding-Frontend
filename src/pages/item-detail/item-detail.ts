@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 import { Items } from '../../providers/items/items';
 
@@ -19,10 +20,13 @@ export interface CountdownTimer {
 })
 export class ItemDetailPage {
   item: any;
+  amount_now: any;
   profilePic = "assets/img/speakers/bear.jpg";
 
-  constructor(public navCtrl: NavController, navParams: NavParams, items: Items) {
-    this.item = navParams.get('item') || items.defaultItem;
+  constructor(public navCtrl: NavController, navParams: NavParams,public items: Items,
+              private alertCtrl: AlertController, public toastCtrl: ToastController,) {
+    this.item = navParams.get('item').contract;
+    this.amount_now = navParams.get('item').amount_now;
   }
 
   cards() {
@@ -108,4 +112,75 @@ export class ItemDetailPage {
     return {daysString, hoursString, minutesString, secondsString};
   }
   /////////
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Dona',
+      inputs: [
+        {
+          name: 'amount_donated',
+          placeholder: 'Cuanto quieres donar?'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Donate',
+          handler: data => {
+            let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id'), amount_donated: data.amount_donated};
+            this.items.addDonation(send).subscribe((res: any) => {
+              console.log(res);
+              this.presentToast(res['message']);
+            }, err => {
+              this.presentToast(err.error['message']);
+            });
+            console.log(send);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  execute() {
+    let alert = this.alertCtrl.create({
+      title: 'Ejecutar la donacion',
+      message: 'Estas seguro de que quieres que esta donacion se lleve a cabo?',
+      buttons: [
+        {
+          text: 'Cancelat',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Shut up and take my money',
+          handler: data => {
+            let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id')};
+            this.items.executeDonation(send).subscribe((res: any) => {
+              console.log(res);
+              this.presentToast(res['message']);
+            }, err => {
+              this.presentToast(err.error['message']);
+            });
+            console.log(send);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  presentToast(msg){
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom',
+    });
+    toast.present();
+  }
 }

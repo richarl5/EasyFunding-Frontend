@@ -4,6 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Settings } from '../../providers';
+import {User} from "../../providers/user/user";
+import * as bigInt from 'big-integer/BigInteger';
+
 
 /**
  * The Settings page is a simple form that syncs with a Settings provider
@@ -33,12 +36,25 @@ export class SettingsPage {
   pageTitle: string;
 
   subSettings: any = SettingsPage;
+  item: any;
 
   constructor(public navCtrl: NavController,
     public settings: Settings,
     public formBuilder: FormBuilder,
+    public user: User,
     public navParams: NavParams,
     public translate: TranslateService) {
+    this.form = this.formBuilder.group({});
+    this.user.getUser(localStorage.getItem('_id')).subscribe((resp) => {
+      if (!resp) {
+        // Unable to log in
+      } else {
+        console.log(resp[0]);
+        this.item = resp[0];
+      }
+    });
+    let c = bigInt.randBetween(bigInt(2).pow(255), bigInt(2).pow(256));
+    console.log(c);
   }
 
   _buildForm() {
@@ -67,7 +83,7 @@ export class SettingsPage {
 
   ionViewDidLoad() {
     // Build an empty form for the template to render
-    this.form = this.formBuilder.group({});
+
   }
 
   ionViewWillEnter() {

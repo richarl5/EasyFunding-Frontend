@@ -18,10 +18,11 @@
       <p>Owner: {{item.owner_id?.username}}</p>
       <p>Contact: {{item.owner_id?.email}}</p>
       <p>{{item.threshold}} Eur</p>
-      <button ion-button block *ngIf="!item.keysGenerated" (click)="content()">Donate</button>
-      <button ion-button block *ngIf="item.keysGenerated" (click)="content()">Desbloquear</button>
-     <!-- <button ion-button block (click)="signup()">Singup</button>
-      <button ion-button block (click)="cards()">Cards</button>-->
+      <p>Tenemos {{amount_now}} Eur</p>
+      <button ion-button block *ngIf="!item.keysGenerated" (click)="presentPrompt()">Donate</button>
+      <button ion-button block *ngIf="item.keysGenerated && !item.executed" (click)="execute()">Desbloquear</button>
+      <button ion-button block *ngIf="item.executed"><strong>Tenemos {{amount_now}} $. </strong> Gracias por colaborar</button>
+      <!--<button ion-button block (click)="cards()">Cards</button>-->
     </ion-card-content>
   </ion-card>
 

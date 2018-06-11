@@ -59,6 +59,33 @@ export class Items {
     return seq;
   }
 
+  addDonation(donation: Item) {
+    let token = 'JWT '+ localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", token);
+
+    let seq = this.api.post('donation', donation, {headers:headers}).share();
+    seq.subscribe((res: any) => {
+      console.log(res);
+    }, err => {
+      console.error('ERROR', err);
+    });
+    return seq;
+  }
+  executeDonation(donation: any) {
+    let token = 'JWT '+ localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", token);
+
+    let seq = this.api.post('contract/unlock', donation, {headers:headers}).share();
+    seq.subscribe((res: any) => {
+      console.log(res);
+    }, err => {
+      console.error('ERROR', err);
+    });
+    return seq;
+  }
+
   delete(item: Item) {
   }
 

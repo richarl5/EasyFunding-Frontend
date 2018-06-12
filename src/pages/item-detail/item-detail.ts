@@ -119,11 +119,11 @@ export class ItemDetailPage {
   /////////
   presentPrompt() {
     let alert = this.alertCtrl.create({
-      title: 'Dona',
+      title: 'Donate',
       inputs: [
         {
           name: 'amount_donated',
-          placeholder: 'Cuanto quieres donar?'
+          placeholder: 'Enter quantity.'
         }
       ],
       buttons: [

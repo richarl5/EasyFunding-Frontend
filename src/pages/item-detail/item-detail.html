@@ -21,7 +21,7 @@
       <p>Actual:    {{amount_now}} Eur</p>
       <p>Keys needed:    {{item.robustness}} %</p>
       <button ion-button block *ngIf="!item.keysGenerated" (click)="presentPrompt()">Donate</button>
-      <button ion-button block *ngIf="item.keysGenerated && !item.executed" (click)="execute()">Unblock</button>
+      <button ion-button block *ngIf="item.keysGenerated && !item.executed" (click)="execute()">Unlock</button>
       <button ion-button block *ngIf="item.executed"><strong>We have {{amount_now}} Eur. </strong> Thanks everyone</button>
       <!--<button ion-button block (click)="cards()">Cards</button>-->
     </ion-card-content>
@@ -29,7 +29,7 @@
 
   <ion-card *ngIf="timer || !item.keysGenerated">
     <ion-card-header>
-      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">Left {{timer.displayTime.daysString}} days</button>
+      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">Time Left {{timer.displayTime.daysString}} days</button>
       <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">{{timer.displayTime.hoursString}}h:{{timer.displayTime.minutesString}}:{{timer.displayTime.secondsString}}</button>
       <button ion-button *ngIf="!timeInSeconds || timeInSeconds == 0" large block clear class="timer-button">Timer set up incorrectly</button>
     </ion-card-header>

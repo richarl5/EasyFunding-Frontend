@@ -14,6 +14,7 @@ export class Items {
     "profilePic": "assets/img/speakers/bear.jpg",
     "about": "Burt is a Bear.",
   };
+  items: any;
   query(params?: any) {
     let token = 'JWT '+ localStorage.getItem('token');
     let headers = new HttpHeaders();
@@ -23,6 +24,7 @@ export class Items {
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
       console.log(res);
+      this.items=res;
     }, err => {
       console.error('ERROR', err);
     });
@@ -84,6 +86,23 @@ export class Items {
       console.error('ERROR', err);
     });
     return seq;
+  }
+  buscar(params?: any) {
+    if (!params) {
+      return this.items;
+    }
+
+    return this.items.filter((item) => {
+      for (let key in params) {
+        let field = item[key];
+        if (typeof field == 'string' && field.toLowerCase().indexOf(params[key].toLowerCase()) >= 0) {
+          return item;
+        } else if (field == params[key]) {
+          return item;
+        }
+      }
+      return null;
+    });
   }
 
   delete(item: Item) {

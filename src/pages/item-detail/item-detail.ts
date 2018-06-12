@@ -123,7 +123,8 @@ export class ItemDetailPage {
       inputs: [
         {
           name: 'amount_donated',
-          placeholder: 'Enter quantity.'
+          placeholder: 'Enter quantity.',
+          type: 'number'
         }
       ],
       buttons: [
@@ -161,11 +162,11 @@ export class ItemDetailPage {
   }
   execute() {
     let alert = this.alertCtrl.create({
-      title: 'Ejecutar la donacion',
-      message: 'Estas seguro de que quieres que esta donacion se lleve a cabo?',
+      title: 'Execute contract',
+      message: 'Are you sure? Are you rich?',
       buttons: [
         {
-          text: 'Cancelat',
+          text: 'Cancel',
           role: 'cancel',
           handler: data => {
             console.log('Cancel clicked');

@@ -104,6 +104,10 @@ export class SettingsPage {
       this._buildForm();
     });
   }
+  exit(){
+    localStorage.clear();
+    this.navCtrl.push('WelcomePage');
+  }
 
   ngOnChanges() {
     console.log('Ng All Changes');

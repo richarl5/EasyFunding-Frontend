@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Item } from '../../models/item';
-import { Items } from '../../providers';
+import { Items } from '../../providers/items/items';
 
 @IonicPage()
 @Component({
@@ -19,14 +19,14 @@ export class SearchPage {
    * Perform a service for the proper items.
    */
   getItems(ev) {
-    /*let val = ev.target.value;
+    let val = ev.target.value;
     if (!val || !val.trim()) {
       this.currentItems = [];
       return;
     }
-    this.currentItems = this.items.query({
+    this.currentItems = this.items.buscar({
       name: val
-    });*/
+    });
   }
 
   /**

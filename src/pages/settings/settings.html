@@ -34,7 +34,7 @@
       </button>
     </ion-list>
 
-    <ion-list *ngIf="page == 'profile'">
+    <ion-list *ngIf="page == 'settings'">
       <ion-item>
         <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
         <ion-input formControlName="option4"></ion-input>
@@ -50,7 +50,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>repo-details</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -64,7 +64,8 @@
       <p><strong>Email: </strong>{{item?.email}}</p>
       <p><strong>Wallet: </strong>{{item?.wallet}}</p>
       <p><strong>Signup Date: </strong>{{item?.signupDate| date:'longDate'}}</p>
-      <p><strong>lastLogin: </strong>{{item?.lastLogin| date:'longDate'}}</p>
+      <p><strong>Last Login Date: </strong>{{item?.lastLogin| date:'longDate'}}</p>
+      <button ion-button block (click)="exit()">Log Out</button>
     </ion-card-content>
     <hr />
   </ion-card>

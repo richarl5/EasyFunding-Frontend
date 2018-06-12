@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { Items } from '../../providers/items/items';
 import * as bigInt from 'big-integer/BigInteger';
 import * as shajs from 'sha.js';
+import {SharedService} from "../../providers/items/shared.service";
 
 export interface CountdownTimer {
   seconds: number;
@@ -24,11 +25,13 @@ export class ItemDetailPage {
   item: any;
   amount_now: any;
   profilePic = "assets/img/speakers/bear.jpg";
-
+  keys: any;
   constructor(public navCtrl: NavController, navParams: NavParams,public items: Items,
-              private alertCtrl: AlertController, public toastCtrl: ToastController,) {
+              private alertCtrl: AlertController, public toastCtrl: ToastController, public sharedService: SharedService) {
     this.item = navParams.get('item').contract;
     this.amount_now = navParams.get('item').amount_now;
+
+    this.keys = this.sharedService.subscribeData();
   }
 
   cards() {
@@ -134,9 +137,9 @@ export class ItemDetailPage {
         {
           text: 'Donate',
           handler: data => {
-            let keys = JSON.parse(localStorage.getItem('keys'));
+            //let keys = JSON.parse(localStorage.getItem('keys'));
             let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id'), amount_donated: data.amount_donated, signature: ''};
-
+            let keys = this.keys;
             let string = send.contract_id +"."+ send.user_id +"."+ send.amount_donated;
             let hash = shajs('sha256').update(string).digest('hex');
             let messageS=bigInt(hash, 16);

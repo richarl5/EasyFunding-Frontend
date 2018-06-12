@@ -5,6 +5,7 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { User } from '../../providers';
 import { MainPage } from '../';
 import * as bigInt from 'big-integer/BigInteger';
+import {SharedService} from "../../providers/items/shared.service";
 
 @IonicPage()
 @Component({
@@ -27,6 +28,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
+    public sharedService: SharedService,
     public translateService: TranslateService) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
@@ -77,7 +79,8 @@ export class LoginPage {
     d = e.modInv(phi);
     console.log('Client Keys Generated');
     let myKeys = {e: e.toString(), n: n.toString(), d: d.toString()};
-    localStorage.setItem('keys', JSON.stringify(myKeys));
+    this.sharedService.publishData(myKeys);
+    //localStorage.setItem('keys', JSON.stringify(myKeys));
     return myKeys;
   };
 

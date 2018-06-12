@@ -11,9 +11,12 @@ import { Items } from '../../providers/items/items';
 })
 export class ListMasterPage {
   currentItems: Item[];
-  profilePic = "assets/img/speakers/bear.jpg";
+  profilePic = "assets/img/speakers/Donacion.png";
 
   constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
+    this.getContractList();
+  }
+  getContractList (){
     this.items.query().subscribe((res: any) => {
       this.currentItems = res;
       console.log(this.currentItems);
@@ -39,9 +42,11 @@ export class ListMasterPage {
         console.log(item);
         //item.actual = 0;
         this.items.add(item);
+        this.getContractList();
       }
     });
     addModal.present();
+
   }
 
   /**

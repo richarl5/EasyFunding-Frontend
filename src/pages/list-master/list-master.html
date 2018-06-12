@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Lista de Grupos</ion-title>
+    <ion-title>List of contracts</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
@@ -20,7 +20,7 @@
         <ion-avatar item-start>
           <img [src]="profilePic" />
         </ion-avatar>
-        <h2>{{item.description}}</h2>
+        <h2>{{item.name}}</h2>
         <p>{{item.treshold}}</p>
         <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
       </button>

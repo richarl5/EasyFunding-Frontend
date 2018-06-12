@@ -4,6 +4,7 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 
 import { User } from '../../providers';
 import { MainPage } from '../';
+import * as bigInt from 'big-integer/BigInteger';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class LoginPage {
     email: 'example@gmail.com',
     password: ''
   };
+  keys;
 
   // Our translated text strings
   private loginErrorString: string;
@@ -29,7 +31,8 @@ export class LoginPage {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
-    })
+    });
+    this.keys = this.generateKeys();
   }
 
   presentToast(msg){
@@ -43,7 +46,7 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
+    this.user.login({credentials: this.account, publicKey: {e: this.keys.e, n: this.keys.n}}).subscribe((resp) => {
       console.log(JSON.stringify(resp));
       if (!resp['success']) {
         this.presentToast(resp['message'])
@@ -57,4 +60,25 @@ export class LoginPage {
       }
     });
   }
+
+  generateKeys() {
+    let base=bigInt(2);
+    let e= bigInt(65537);
+    let p=bigInt.zero, q=bigInt.zero, n=bigInt.zero, d=bigInt.zero;
+
+    while (!bigInt(p).isPrime()) {
+      p = bigInt.randBetween(base.pow(255), base.pow(256).subtract(1));
+    }
+    while (!bigInt(q).isPrime()) {
+      q = bigInt.randBetween(base.pow(255), base.pow(256).subtract(1));
+    }
+    let phi = p.subtract(1).multiply(q.subtract(1));
+    n = p.multiply(q);
+    d = e.modInv(phi);
+    console.log('Client Keys Generated');
+    let myKeys = {e: e.toString(), n: n.toString(), d: d.toString()};
+    localStorage.setItem('keys', JSON.stringify(myKeys));
+    return myKeys;
+  };
+
 }

@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ item.description }}</ion-title>
+    <ion-title>{{ item.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,30 +10,31 @@
 <ion-content>
 
   <ion-card>
-    <div class="item-profile" text-center #profilePic [style.background-image]="'url(assets/img/speakers/bear.jpg)'">
+    <div class="item-profile" text-center #profilePic [style.background-image]="'url(assets/img/speakers/Donacion.png)'">
     </div>
 
     <ion-card-content>
       <h2>{{item.description}}</h2>
-      <p>Owner: {{item.owner_id?.username}}</p>
-      <p>Contact: {{item.owner_id?.email}}</p>
-      <p>{{item.threshold}} Eur</p>
-      <p>Tenemos {{amount_now}} Eur</p>
+      <p>Owner:     {{item.owner_id?.username}}</p>
+      <p>Contact:   {{item.owner_id?.email}}</p>
+      <p>Expected:  {{item.threshold}} Eur</p>
+      <p>Actual:    {{amount_now}} Eur</p>
+      <p>Keys needed:    {{item.robustness}} %</p>
       <button ion-button block *ngIf="!item.keysGenerated" (click)="presentPrompt()">Donate</button>
-      <button ion-button block *ngIf="item.keysGenerated && !item.executed" (click)="execute()">Desbloquear</button>
-      <button ion-button block *ngIf="item.executed"><strong>Tenemos {{amount_now}} $. </strong> Gracias por colaborar</button>
+      <button ion-button block *ngIf="item.keysGenerated && !item.executed" (click)="execute()">Unblock</button>
+      <button ion-button block *ngIf="item.executed"><strong>We have {{amount_now}} Eur. </strong> Thanks everyone</button>
       <!--<button ion-button block (click)="cards()">Cards</button>-->
     </ion-card-content>
   </ion-card>
 
   <ion-card *ngIf="timer || !item.keysGenerated">
     <ion-card-header>
-      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">Quedan {{timer.displayTime.daysString}} días</button>
-      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">{{timer.displayTime.hoursString}}:{{timer.displayTime.minutesString}}:{{timer.displayTime.secondsString}}</button>
+      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">Left {{timer.displayTime.daysString}} days</button>
+      <button ion-button *ngIf="timeInSeconds && timeInSeconds > 0" large block clear class="timer-button x-large">{{timer.displayTime.hoursString}}h:{{timer.displayTime.minutesString}}:{{timer.displayTime.secondsString}}</button>
       <button ion-button *ngIf="!timeInSeconds || timeInSeconds == 0" large block clear class="timer-button">Timer set up incorrectly</button>
     </ion-card-header>
     <ion-item *ngIf="timeInSeconds && timeInSeconds > 0">
-      <button ion-button clear class="large" color="danger" (click)="initTimer()" item-start *ngIf="!timer.runTimer && (timer.hasStarted || timer.hasFinished) || timer.hasFinished">
+      <!--<button ion-button clear class="large" color="danger" (click)="initTimer()" item-start *ngIf="!timer.runTimer && (timer.hasStarted || timer.hasFinished) || timer.hasFinished">
         <ion-icon name="refresh"></ion-icon>
         Restart
       </button>
@@ -48,7 +49,7 @@
       <button ion-button clear class="large" (click)="startTimer()" item-end *ngIf="!timer.hasStarted">
         <ion-icon name="play"></ion-icon>
         Start
-      </button>
+      </button>-->
     </ion-item>
   </ion-card>
 </ion-content>

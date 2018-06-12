@@ -3,6 +3,8 @@ import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angula
 import { AlertController } from 'ionic-angular';
 
 import { Items } from '../../providers/items/items';
+import * as bigInt from 'big-integer/BigInteger';
+import * as shajs from 'sha.js';
 
 export interface CountdownTimer {
   seconds: number;
@@ -132,7 +134,15 @@ export class ItemDetailPage {
         {
           text: 'Donate',
           handler: data => {
-            let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id'), amount_donated: data.amount_donated};
+            let keys = JSON.parse(localStorage.getItem('keys'));
+            let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id'), amount_donated: data.amount_donated, signature: ''};
+
+            let string = send.contract_id +"."+ send.user_id +"."+ send.amount_donated;
+            let hash = shajs('sha256').update(string).digest('hex');
+            let messageS=bigInt(hash, 16);
+            send.signature = messageS.modPow(bigInt(keys.d),bigInt(keys.n)).toString();
+            console.log(send);
+
             this.items.addDonation(send).subscribe((res: any) => {
               console.log(res);
               this.presentToast(res['message']);

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, ToastController} from 'ionic-angular';
 
 import { User } from '../../providers';
 import { MainPage } from '../';
@@ -16,9 +16,9 @@ export class SignupPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
   account: { username: string, email: string, password: string } = {
-    username: 'Test Human',
-    email: 'test@example.com',
-    password: 'test'
+    username: 'Username',
+    email: 'test@gmail.com',
+    password: '12345678'
   };
 
   // Our translated text strings
@@ -27,14 +27,26 @@ export class SignupPage {
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService, public loadingCtrl: LoadingController) {
 
     this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
       this.signupErrorString = value;
     })
   }
 
+  presentLoadingDefault() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 3000);
+  }
+
   doSignup() {
+    this.presentLoadingDefault();
     // Attempt to login in through our User service
     this.user.signup(this.account).subscribe((resp) => {
       console.log(resp);

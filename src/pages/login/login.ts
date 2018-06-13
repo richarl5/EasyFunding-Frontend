@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, ToastController} from 'ionic-angular';
 
 import { User } from '../../providers';
 import { MainPage } from '../';
@@ -25,16 +25,29 @@ export class LoginPage {
   // Our translated text strings
   private loginErrorString: string;
 
+
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
     public sharedService: SharedService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService, public loadingCtrl: LoadingController) {
+
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     });
     this.keys = this.sharedService.generateKeys();
+  }
+
+  presentLoadingDefault() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 3000);
   }
 
   presentToast(msg){
@@ -48,6 +61,7 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
+    this.presentLoadingDefault();
     this.user.login({credentials: this.account, publicKey: {e: this.keys.e, n: this.keys.n}}).subscribe((resp) => {
       console.log(JSON.stringify(resp));
       if (!resp['success']) {

@@ -34,7 +34,7 @@ export class LoginPage {
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     });
-    this.keys = this.generateKeys();
+    this.keys = this.sharedService.generateKeys();
   }
 
   presentToast(msg){
@@ -63,7 +63,7 @@ export class LoginPage {
     });
   }
 
-  generateKeys() {
+  /*generateKeys() {
     let base=bigInt(2);
     let e= bigInt(65537);
     let p=bigInt.zero, q=bigInt.zero, n=bigInt.zero, d=bigInt.zero;
@@ -82,6 +82,6 @@ export class LoginPage {
     this.sharedService.publishData(myKeys);
     //localStorage.setItem('keys', JSON.stringify(myKeys));
     return myKeys;
-  };
+  };*/
 
 }

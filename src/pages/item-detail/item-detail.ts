@@ -141,10 +141,7 @@ export class ItemDetailPage {
             //let keys = JSON.parse(localStorage.getItem('keys'));
             let send = {contract_id: this.item._id, user_id: localStorage.getItem('_id'), amount_donated: data.amount_donated, signature: ''};
             let keys = this.keys;
-            let string = send.contract_id +"."+ send.user_id +"."+ send.amount_donated;
-            let hash = shajs('sha256').update(string).digest('hex');
-            let messageS=bigInt(hash, 16);
-            send.signature = messageS.modPow(bigInt(keys.d),bigInt(keys.n)).toString();
+            send.signature = this.sharedService.signMessage(send, keys);
             console.log(send);
 
             this.items.addDonation(send).subscribe((res: any) => {

@@ -46,7 +46,7 @@ export class ListMasterPage {
       }
     });
     addModal.present();
-
+    this.getContractList();
   }
 
   /**
